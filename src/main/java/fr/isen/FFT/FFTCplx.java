@@ -49,13 +49,34 @@ public class FFTCplx
 	{
 		// Création d'un signal test simple
 		Complexe[] signalTest = new Complexe[TailleFFTtest];
-		for (int i = 0; i < TailleFFTtest; ++i)
-			signalTest[i] = new ComplexeCartesien(Math.cos(2.*Math.PI*i/TailleFFTtest*Periode), 0);
+		for (int i = 0; i < TailleFFTtest; ++i) {
+			if (args.length == 1) {
+				switch (args[0]) {
+					case "cosReel":
+						signalTest[i] = new ComplexeCartesien(Math.cos(2. * Math.PI * i / TailleFFTtest * Periode), 0);
+						break;
+					case "sinReel":
+						signalTest[i] = new ComplexeCartesien(Math.sin(2. * Math.PI * i / TailleFFTtest * Periode), 0);
+						break;
+					case "cosImag":
+						signalTest[i] = new ComplexeCartesien(0, Math.cos(2. * Math.PI * i / TailleFFTtest * Periode));
+						break;
+					case "sinImag":
+						signalTest[i] = new ComplexeCartesien(0, Math.sin(2. * Math.PI * i / TailleFFTtest * Periode));
+						break;
+				}
+			} else {
+				signalTest[i] = new ComplexeCartesien(Math.cos(2. * Math.PI * i / TailleFFTtest * Periode), 0);
+			}
+		}
 		// On applique la FFT sur ce signal
 		Complexe[] resultat = appliqueSur(signalTest);
-		// On affiche les valeurs du résultat
+		// On affiche les valeurs du résultat et de l'entrée
 		for (int i = 0; i < resultat.length; ++i) {
-			System.out.print(i+" : ("+(float)resultat[i].reel()+" ; "+(float)resultat[i].imag()+"i)");
+			System.out.println("=======");
+			System.out.print("x[" + i + "] : ("+(float)signalTest[i].reel()+" ; "+(float)signalTest[i].imag()+"i)");
+			System.out.println(", ("+(float)signalTest[i].mod()+" ; "+(float)signalTest[i].arg()+" rad)");
+			System.out.print("X[" + i + "] : ("+(float)resultat[i].reel()+" ; "+(float)resultat[i].imag()+"i)");
 			System.out.println(", ("+(float)resultat[i].mod()+" ; "+(float)resultat[i].arg()+" rad)");
 		}
 	}

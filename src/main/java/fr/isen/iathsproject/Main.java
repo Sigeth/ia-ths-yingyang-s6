@@ -30,6 +30,9 @@ public class Main {
         System.out.println("Longueur de données: " + carre.donnees().length);
         System.out.println("Longueur de données du bloc 1 de longueur 512: " + carre.bloc_deTaille(1, 512).length);
 
-        FFTCplx.main(new String[1]);
+        for (String el : new String[]{"cosReel", "sinReel", "cosImag", "sinImag"}) {
+            System.out.println(el);
+            FFTCplx.main(new String[]{el});
+        }
     }
 }
