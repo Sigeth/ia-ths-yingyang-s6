@@ -5,13 +5,13 @@ public class FFTCplx
 	public final static int TailleFFTtest = 16;
 	public final static double Periode = 1;
 
-// 	private int taille;
-// 
-// // Indiquer la taille permettra des optimisations par la suite
-// 	public FFTCplx(int taille)
-// 	{
-// 		this.taille = taille;
-// 	}
+ 	private int taille;
+
+ // Indiquer la taille permettra des optimisations par la suite
+ 	public FFTCplx(int taille)
+ 	{
+ 		this.taille = taille;
+ 	}
 
 	// Sous-signal obligatoirement découpé par pas de deux
 	private static Complexe[] demiSignal(Complexe[] signal, int depart)
