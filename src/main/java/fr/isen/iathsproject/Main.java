@@ -4,6 +4,11 @@ import fr.isen.FFT.Complexe;
 import fr.isen.FFT.ComplexeCartesien;
 import fr.isen.FFT.FFTCplx;
 import fr.isen.Son.Son;
+import fr.isen.neurone.Neurone;
+import fr.isen.neurone.NeuroneHeaviside;
+
+import java.util.Arrays;
+
 import static fr.isen.FFT.FFTCplx.appliqueSur;
 
 public class Main {
@@ -28,18 +33,44 @@ public class Main {
         }
     }
 
+    private static NeuroneHeaviside trainHeaviside(float[] resultats) {
+        NeuroneHeaviside n = new NeuroneHeaviside(2);
+
+        System.out.println("Perceptron avant apprentissage : " + n);
+
+        float[][] entrees = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
+
+        int cptEchecs = n.apprentissage(entrees, resultats);
+
+        System.out.println("Perceptron après apprentissage : " + n + "\nAvec " + cptEchecs + " échecs.");
+
+        return n;
+    }
+
     public static void main(String[] args) {
-        Son carre = new Son("src/main/resources/Sources-sonores/Carre.wav");
+        /*Son carre = new Son("src/main/resources/Sources-sonores/Carre.wav");
         Son sinus = new Son("src/main/resources/Sources-sonores/Sinusoide.wav");
 
         System.out.println("Fréquence carré: " + carre.frequence() + "Hz");
         System.out.println("Longueur de données carré: " + carre.donnees().length);
 
-        /* for (String el : new String[]{"cosReel", "sinReel", "cosImag", "sinImag"}) {
+        for (String el : new String[]{"cosReel", "sinReel", "cosImag", "sinImag"}) {
             System.out.println(el);
             FFTCplx.main(new String[]{el});
-        }*/
+        }
 
-        sonFFT(sinus);
+        sonFFT(sinus);*/
+
+        NeuroneHeaviside orH = trainHeaviside(new float[]{0,1,1,1});
+        NeuroneHeaviside andH = trainHeaviside(new float[]{0,0,0,1});
+
+        for (float[] entree : new float[][]{{0, 0}, {1, 0}, {0, 1}, {1, 1}}) {
+            System.out.println("========");
+            System.out.println("Pour l'entrée " + Arrays.toString(entree));
+            orH.metAJour(entree);
+            System.out.println("OR Heaviside : " + orH.sortie());
+            andH.metAJour(entree);
+            System.out.println("AND Heaviside : " + andH.sortie());
+        }
     }
 }
