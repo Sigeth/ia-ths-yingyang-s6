@@ -103,9 +103,11 @@ public abstract class Neurone implements iNeurone
 					apprentissageFini = false;
 					compteurEchecs += 1;
 				}
-				/*System.out.println("Delta : " + delta);
-				System.out.println("Sortie : " + this.etatInterne);
-				System.out.println("Résultat attendu : " + resultat);*/
+			}
+			// On arrête l'apprentissage si le compteur d'échecs est trop élevé
+			// càd quand notre algorithme de gradient et diverge et ne fait plus évoluer l'algorithme
+			if (compteurEchecs > 100000) {
+				return compteurEchecs;
 			}
 		}
 		while (!apprentissageFini);
