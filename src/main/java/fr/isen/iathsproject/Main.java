@@ -4,5 +4,6 @@ public class Main {
     public static void main(String[] args) {
         // PartieTHS.main(args);
         PartieIA.main(args);
+        // new DetecteurSon().main(args);
     }
 }
