@@ -59,7 +59,7 @@ public class PartieIA {
                         // ici le tanh fait correspondre le 0 avec le -1 et le 1 avec le 1
                         // donc on teste si la sortie est négative ou positive selon le résultat attendu
                         if (resultats[i] == 0 ? n.sortie() > 0 : n.sortie() <= 0) {
-                            throw new AssertionError("Le neurone a renvoyé " + n.sortie() + " au lieu de " + resultats[i] * 0.5f);
+                            throw new AssertionError("Le neurone a renvoyé " + n.sortie() + " au lieu de " + resultats[i]);
                         }
                     }
 
