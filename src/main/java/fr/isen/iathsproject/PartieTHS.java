@@ -26,18 +26,17 @@ public class PartieTHS {
     }
 
     public static void main(String[] args) {
-        Son carre = new Son("src/main/resources/Sources-sonores/Carre.wav");
-        Son sinus = new Son("src/main/resources/Sources-sonores/Sinusoide.wav");
-
-        System.out.println("Fréquence carré: " + carre.frequence() + "Hz");
-        System.out.println("Longueur de données carré: " + carre.donnees().length);
-
         for (String el : new String[]{"cosReel", "sinReel", "cosImag", "sinImag"}) {
             System.out.println(el);
             FFTCplx.main(new String[]{el});
         }
 
-        System.out.println("Sinusoide.wav");
-        sonFFT(sinus, 16);
+        for (String s : new String[]{"Bruit", "Carre", "Sinusoide", "Sinusoide2", "Sinusoide3Harmoniques"}) {
+            Son son = new Son("src/main/resources/Sources-sonores/" + s + ".wav");
+            System.out.println("Fréquence " + s + ": " + son.frequence() + "Hz");
+            System.out.println("Longueur de données " + s + ": " + son.donnees().length);
+            System.out.println("FFT de " + s);
+            sonFFT(son, 32);
+        }
     }
 }
