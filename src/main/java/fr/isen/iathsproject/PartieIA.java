@@ -1,8 +1,6 @@
 package fr.isen.iathsproject;
 
-import fr.isen.neurone.Neurone;
-import fr.isen.neurone.NeuroneHeaviside;
-import fr.isen.neurone.NeuroneSigmoide;
+import fr.isen.neurone.*;
 
 public class PartieIA {
     /**
@@ -46,16 +44,21 @@ public class PartieIA {
                     n.metAJour(entree);
 
                     // on vérifie que notre sortie est bien le résultat attendu
-                    // on différencie ici les Neurone Heaviside des Neurone Sigmoide qui n'ont pas la même manière de tester leur sortie
+                    // on différencie ici les différent Neurone qui n'ont pas la même manière de tester leur sortie
                     if (n.getClass() == NeuroneHeaviside.class) {
                         if (n.sortie() != resultats[i])
                             throw new AssertionError("Le neurone a renvoyé " + n.sortie() + " au lieu de " + resultats[i]);
-                    } else { // if NeuroneSigmoide
-
+                    } else if (n.getClass() == NeuroneSigmoide.class || n.getClass() == NeuroneReLU.class) {
                         // ici le 0 et le 1 sont déterminé si le résultat est au-dessus ou en dessous de 0.5
-                        // en effet, la fonction Sigmoïd renverra rarement 1 ou 0 exactement
+                        // en effet, la fonction ReLU et Sigmoïd renverra rarement 1 ou 0 exactement
                         // on doit donc s'adapter à ce type de fonction d'activation
-                        if (n.sortie() <= resultats[i] * 0.5f) {
+                        if (n.sortie() < resultats[i] * 0.5f) {
+                            throw new AssertionError("Le neurone a renvoyé " + n.sortie() + " au lieu de " + resultats[i] * 0.5f);
+                        }
+                    } else if (n.getClass() == NeuroneTanH.class) {
+                        // ici le tanh fait correspondre le 0 avec le -1 et le 1 avec le 1
+                        // donc on teste si la sortie est négative ou positive selon le résultat attendu
+                        if (resultats[i] == 0 ? n.sortie() > 0 : n.sortie() <= 0) {
                             throw new AssertionError("Le neurone a renvoyé " + n.sortie() + " au lieu de " + resultats[i] * 0.5f);
                         }
                     }
@@ -80,18 +83,37 @@ public class PartieIA {
         System.out.println("Entraînement AND Heaviside");
         Neurone andH = trainNeurone(new NeuroneHeaviside(2), new float[]{0,0,0,1});
 
+        System.out.println("Entraînement OR ReLU");
+        Neurone orReLU = trainNeurone(new NeuroneReLU(2), new float[]{0,1,1,1});
+        System.out.println("Entraînement AND ReLU");
+        Neurone andReLU = trainNeurone(new NeuroneReLU(2), new float[]{0,0,0,1});
+
         System.out.println("Entraînement OR Sigmoïd");
         Neurone orSigmoid = trainNeurone(new NeuroneSigmoide(2), new float[]{0,1,1,1});
         System.out.println("Entraînement AND Sigmoïd");
         Neurone andSigmoid = trainNeurone(new NeuroneSigmoide(2), new float[]{0,0,0,1});
 
+        // ici on change l'entraînement et on transforme les 0 en -1, conformément la courbe de tanh
+        System.out.println("Entraînement OR tanh");
+        Neurone ortanH = trainNeurone(new NeuroneTanH(2), new float[]{-1,1,1,1});
+        System.out.println("Entraînement AND tanh");
+        Neurone andtanH = trainNeurone(new NeuroneTanH(2), new float[]{-1,-1,-1,1});
+
         System.out.println("Test OR Heaviside");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(orH, new float[]{0,1,1,1}) * 100.f) + "%");
         System.out.println("Test AND Heaviside");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(andH, new float[]{0,0,0,1}) * 100.f) + "%");
+        System.out.println("Test OR ReLU");
+        System.out.println("Taux de réussite : " + Math.round(testNeurone(orReLU, new float[]{0,1,1,1}) * 100.f) + "%");
+        System.out.println("Test AND ReLU");
+        System.out.println("Taux de réussite : " + Math.round(testNeurone(andReLU, new float[]{0,0,0,1}) * 100.f) + "%");
         System.out.println("Test OR Sigmoid");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(orSigmoid, new float[]{0,1,1,1}) * 100.f) + "%");
         System.out.println("Test AND Sigmoid");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(andSigmoid, new float[]{0,0,0,1}) * 100.f) + "%");
+        System.out.println("Test OR tanh");
+        System.out.println("Taux de réussite : " + Math.round(testNeurone(ortanH, new float[]{0,1,1,1}) * 100.f) + "%");
+        System.out.println("Test AND tanh");
+        System.out.println("Taux de réussite : " + Math.round(testNeurone(andtanH, new float[]{0,0,0,1}) * 100.f) + "%");
     }
 }
