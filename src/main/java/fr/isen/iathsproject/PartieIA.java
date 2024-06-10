@@ -2,6 +2,8 @@ package fr.isen.iathsproject;
 
 import fr.isen.neurone.*;
 
+import java.lang.module.ResolutionException;
+
 public class PartieIA {
     /**
      * trainNeurone - Permet d'entraîner un neurone Heaviside ou Sigmoide pour faire une porte (OR ou AND)
@@ -13,12 +15,16 @@ public class PartieIA {
         System.out.println("Perceptron avant apprentissage : " + n);
 
         float[][] entrees = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
+        try {
+            int cptEchecs = n.apprentissage(entrees, resultats);
 
-        int cptEchecs = n.apprentissage(entrees, resultats);
+            System.out.println("Perceptron après apprentissage : " + n + "\nAvec " + cptEchecs + " itérations.");
 
-        System.out.println("Perceptron après apprentissage : " + n + "\nAvec " + cptEchecs + " échecs.");
-
-        return n;
+            return n;
+        } catch (ResolutionException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -28,6 +34,9 @@ public class PartieIA {
      * @return float représentant le taux de réussite du neurone testé
      */
     private static float testNeurone(Neurone n, float[] resultats) {
+        if (n == null) {
+            return 0.f;
+        }
         // ces deux variables sont des compteurs permettant de générer le taux de réussite
         float tests = 0;
         float cptEchecs = 0;
@@ -102,18 +111,18 @@ public class PartieIA {
         System.out.println("Test OR Heaviside");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(orH, new float[]{0,1,1,1}) * 100.f) + "%");
         System.out.println("Test AND Heaviside");
-        System.out.println("Taux de réussite : " + Math.round(testNeurone(andH, new float[]{0,0,0,1}) * 100.f) + "%");
+        /*System.out.println("Taux de réussite : " + Math.round(testNeurone(andH, new float[]{0,0,0,1}) * 100.f) + "%");
         System.out.println("Test OR ReLU");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(orReLU, new float[]{0,1,1,1}) * 100.f) + "%");
-        System.out.println("Test AND ReLU");
+        System.out.println("Test AND ReLU");*/
         System.out.println("Taux de réussite : " + Math.round(testNeurone(andReLU, new float[]{0,0,0,1}) * 100.f) + "%");
         System.out.println("Test OR Sigmoid");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(orSigmoid, new float[]{0,1,1,1}) * 100.f) + "%");
         System.out.println("Test AND Sigmoid");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(andSigmoid, new float[]{0,0,0,1}) * 100.f) + "%");
-        System.out.println("Test OR tanh");
+        /*System.out.println("Test OR tanh");
         System.out.println("Taux de réussite : " + Math.round(testNeurone(ortanH, new float[]{0,1,1,1}) * 100.f) + "%");
         System.out.println("Test AND tanh");
-        System.out.println("Taux de réussite : " + Math.round(testNeurone(andtanH, new float[]{0,0,0,1}) * 100.f) + "%");
+        System.out.println("Taux de réussite : " + Math.round(testNeurone(andtanH, new float[]{0,0,0,1}) * 100.f) + "%");*/
     }
 }

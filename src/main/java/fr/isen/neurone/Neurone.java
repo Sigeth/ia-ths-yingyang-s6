@@ -1,5 +1,7 @@
 package fr.isen.neurone;
 
+import java.lang.module.ResolutionException;
+
 public abstract class Neurone implements iNeurone
 {
 	// Coefficient de mise à jour des poids,
@@ -107,7 +109,7 @@ public abstract class Neurone implements iNeurone
 			// On arrête l'apprentissage si le compteur d'échecs est trop élevé
 			// càd quand notre algorithme de gradient et diverge et ne fait plus évoluer l'algorithme
 			if (compteurEchecs > 100000) {
-				return compteurEchecs;
+				throw new ResolutionException("Le neurone met plus de 100 000 itérations à apprendre, la fonction d'apprentissage diverge.");
 			}
 		}
 		while (!apprentissageFini);

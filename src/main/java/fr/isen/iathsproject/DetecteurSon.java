@@ -49,7 +49,7 @@ public class DetecteurSon {
         }
 
         int cptEchecs = n.apprentissage(entrees, resultats);
-        System.out.println("Apprentissage terminé avec " + cptEchecs + " échecs");
+        System.out.println("Apprentissage terminé avec " + cptEchecs + " itérations");
 
         /*for (float synapse : n.synapses())
             System.out.print(synapse + " ");
