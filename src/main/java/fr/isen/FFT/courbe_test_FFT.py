@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Lecture des données
-file_path = 'P1.txt'  #Mettre le fichier .txt
+file_path = 'test1.txt'  #Mettre le fichier .txt
 original_data = []
 transformed_data = []
 
@@ -63,7 +63,7 @@ plt.legend()
 plt.ylabel("Amplitude")
 
 plt.subplot(4, 1, 4)
-plt.title("Signal FFT - Module and Argument")
+plt.title("Signal FFT - Module et Argument")
 plt.plot(transformed_mod, label="Module")
 plt.plot(transformed_arg, label="Argument")
 plt.legend()

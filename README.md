@@ -14,3 +14,8 @@ Faites `./gradlew run` pour lancer le programme
 Nous avons séparé le code en 3 parties : THS, IA et DetecteurSon.<br>
 Pour accéder à ces différentes parties, allez dans le code source : `src/main/java/fr/isen/iathsproject/Main.java` et décommentez la ligne de la partie que vous voulez accéder.<br>
 Veillez à n'avoir qu'une seule ligne décommentée dans ce `Main.java` pour éviter tout problème.
+## Visualisation FFT
+Dans `src/main/java/fr/isen/FFT` vous trouverez le fichier `courbe_test_FFT.py` permettant la visualisation du résultat de `FFTCplx.java`.
+Pour l'utiliser lancer `FFTCplx.java`, copier/coller le réultat dans un fichier .txt que vous enregistrez dans le meme dossier.
+Modifier le nom du fichier avec le votre dans le code python et lancer le.
+
