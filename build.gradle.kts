@@ -19,6 +19,10 @@ application {
     mainClass = "fr.isen.iathsproject.Main"
 }
 
+tasks.jar {
+    manifest.attributes["Main-Class"] = application.mainClass
+}
+
 tasks.test {
     useJUnitPlatform()
 }
